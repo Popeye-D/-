@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 /**
  * @author: zlh
- * @description: 对没有登录的请求进行拦截, 全部返回json信息. 覆盖掉shiro原本的跳转login.jsp的拦截方式
+ * @description: 对没有登录的请求进行拦截, 全部返回json信息
  * @date: 2019/5/1
  */
 public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter {
