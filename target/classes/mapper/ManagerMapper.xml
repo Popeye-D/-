@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlh.example.dao.ManagerDao">
+
+    <insert id="addStudent" parameterType="com.alibaba.fastjson.JSONObject">
+        INSERT INTO stu_dorm
+        (user_id,dormitory_id,clean_condition)
+        VALUES
+        (#{userID},#{dormID},#{dormClean})
+    </insert>
+
+    <select id="countStudent" resultType="Integer">
+        SELECT count(*)
+        FROM stu_dorm
+    </select>
+
+    <select id="countStudentInfo" resultType="Integer">
+        SELECT count(*)
+        FROM stu_dorm where user_id in (select s.id from sys_user s where username=#{username})
+    </select>
+
+    <select id="listStudent" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            w.id                                      id,
+            w.user_id                                 userID,
+            w.dormitory_id                            dormID,
+            w.clean_condition                         dormClean,
+            DATE_FORMAT(w.write_time, '%Y.%m.%d %T') createTime
+        FROM stu_dorm w ORDER BY w.id DESC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="getStuInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            w.id                                      id,
+            w.user_id                                 userID,
+            w.dormitory_id                            dormID,
+            w.clean_condition                         dormClean,
+            DATE_FORMAT(w.write_time, '%Y.%m.%d %T') createTime
+        FROM stu_dorm w  where w.user_id in (select s.id from sys_user s where username=#{username})ORDER BY w.id DESC
+
+
+    </select>
+    <!--  ORDER BY w.id DESC LIMIT #{offSet}, #{pageRow}  -->
+
+
+
+    <update id="updateStudent" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE stu_dorm
+        SET
+        dormitory_id=#{dormID},clean_condition=#{dormClean}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteStudent">
+        delete from stu_dorm where id = #{id}
+    </delete>
+
+</mapper>
